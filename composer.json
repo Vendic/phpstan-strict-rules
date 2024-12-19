@@ -1,5 +1,5 @@
 {
-    "name": "vendic/phpstan-strict-rules",
+    "name": "thecodingmachine/phpstan-strict-rules",
     "description": "A set of additional rules for PHPStan based on best practices followed at TheCodingMachine",
     "type": "phpstan-extension",
     "license": "MIT",
