@@ -12,6 +12,7 @@ use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use RuntimeException;
 use TheCodingMachine\PHPStan\Utils\PrefixGenerator;
 use Throwable;
@@ -32,7 +33,7 @@ class MustRethrowRule implements Rule
     /**
      * @param Catch_ $node
      * @param \PHPStan\Analyser\Scope $scope
-     * @return string[]
+     * @return \PHPStan\Rules\RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -82,7 +83,8 @@ class MustRethrowRule implements Rule
         $errors = [];
 
         if (!$visitor->isThrowFound()) {
-            $errors[] = sprintf('%scaught "%s" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception. More info: http://bit.ly/failloud', PrefixGenerator::generatePrefix($scope), $exceptionType);
+            $errors[] = RuleErrorBuilder::message(sprintf('%scaught "%s" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception. More info: http://bit.ly/failloud', PrefixGenerator::generatePrefix($scope), $exceptionType))
+                ->build();
         }
 
         return $errors;
